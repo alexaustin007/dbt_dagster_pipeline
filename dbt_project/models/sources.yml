@@ -1,0 +1,11 @@
+version: 2
+
+sources:
+  - name: retail
+    database: retail
+    schema: retail
+    tables:
+      - name: stg_sales
+      - name: stg_stores
+      - name: stg_features
+      - name: stream_sales_events 
