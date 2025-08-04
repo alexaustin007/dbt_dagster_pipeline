@@ -8,4 +8,4 @@ retail_mysql:
       port: 3306
       user: root
       password: password
-      schema: retail
+      schema: retail_analytics
