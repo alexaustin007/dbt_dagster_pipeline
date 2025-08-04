@@ -1,9 +1,9 @@
 version: 2
 
 sources:
-  - name: retail
-    database: retail
-    schema: retail
+  - name: retail_analytics
+    database: retail_analytics
+    schema: retail_analytics
     tables:
       - name: stg_sales
       - name: stg_stores
