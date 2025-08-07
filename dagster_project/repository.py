@@ -1,8 +1,4 @@
 
-from dagster import repository
-from jobs.retail_pipeline import retail_pipeline
-from jobs.streaming_pipeline import streaming_pipeline
+from dagster_project.definitions import defs
 
-@repository
-def retail_repo():
-    return [retail_pipeline, streaming_pipeline]
+retail_repo = defs.get_repository_def()
