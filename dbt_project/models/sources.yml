@@ -5,7 +5,7 @@ sources:
     database: retail_analytics
     schema: retail_analytics
     tables:
-      - name: stg_sales
-      - name: stg_stores
-      - name: stg_features
+      - name: raw_sales
+      - name: raw_stores
+      - name: raw_features
       - name: stream_sales_events 

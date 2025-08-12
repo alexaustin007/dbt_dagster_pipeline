@@ -9,7 +9,7 @@ class DbtConfig(Config):
 def run_dbt_transformations(context):
     """Run dbt transformations after raw data is loaded."""
     config = context.op_config
-    subprocess.check_call(["dbt", "run", "--project-dir", config.dbt_project_dir])
+    subprocess.check_call(["dbt", "run", "--project-dir", config.dbt_project_dir, "--profiles-dir", config.dbt_project_dir])
     return "dbt transformations completed successfully"
 
 @job(

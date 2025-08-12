@@ -4,8 +4,8 @@ retail_mysql:
   outputs:
     dev:
       type: mysql
-      server: 127.0.0.1
+      server: "{{ env_var('DB_HOST', '127.0.0.1') }}"
       port: 3306
-      user: root
-      password: password
-      schema: retail_analytics
+      user: "{{ env_var('DB_USER', 'root') }}"
+      password: "{{ env_var('DB_PASSWORD', '') }}"
+      schema: "{{ env_var('DB_NAME', 'retail_analytics') }}"
