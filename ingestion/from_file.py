@@ -1,5 +1,5 @@
 
-"""Batch ingestion: Load all CSVs from data/raw into MySQL staging tables with incremental loading.
+"""Batch ingestion: Load all CSVs from data/raw into MySQL raw tables with incremental loading.
 
 This script implements incremental loading by:
 1. Using composite primary keys to detect duplicates
@@ -62,22 +62,22 @@ def load_csvs_to_mysql(raw_dir: Path, engine):
     """
     # Define business keys (natural primary keys) and updatable columns
     table_config = {
-        "stg_sales": {
+        "raw_sales": {
             "primary_keys": ["Store", "Dept", "Date"],
             "update_columns": ["Weekly_Sales", "IsHoliday"]
         },
-        "stg_stores": {
+        "raw_stores": {
             "primary_keys": ["Store"],
             "update_columns": ["Type", "Size"]
         },
-        "stg_features": {
+        "raw_features": {
             "primary_keys": ["Store", "Date"],
             "update_columns": ["Temperature", "Fuel_Price", "MarkDown1", "MarkDown2", "MarkDown3", "MarkDown4", "MarkDown5", "CPI", "Unemployment", "IsHoliday"]
         },
     }
 
     for csv_path in raw_dir.glob("*.csv"):
-        table = f"stg_{csv_path.stem.lower()}"
+        table = f"raw_{csv_path.stem.lower()}"
         config = table_config.get(table)
 
         if not config:

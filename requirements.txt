@@ -1,6 +1,7 @@
 
 dagster
 dagster-webserver
+dagster-dbt
 dbt-mysql
 pandas
 sqlalchemy

@@ -1,4 +1,4 @@
-from dagster import asset, get_dagster_logger, Field, Int, String
+from dagster import asset, get_dagster_logger, Field, Int, String, AssetKey
 from sqlalchemy import text
 import pandas as pd
 import os
@@ -11,18 +11,19 @@ data_loading_config = {
 }
 
 @asset(
+    key=AssetKey(["retail_analytics", "raw_sales"]),
     config_schema=data_loading_config,
-    description="Load sales.csv data into stg_sales table with incremental loading",
-    tags={"data_source": "sales", "table": "stg_sales"},
+    description="Load sales.csv data into raw_sales table with incremental loading",
+    tags={"data_source": "sales", "table": "raw_sales"},
     required_resource_keys={"mysql_resource"}
 )
 def raw_sales_data(context):
-    """Load sales.csv into stg_sales table with incremental loading."""
+    """Load sales.csv into raw_sales table with incremental loading."""
     logger = get_dagster_logger()
     engine = context.resources.mysql_resource
     
     csv_path = Path(context.op_config['raw_data_path']) / "sales.csv"
-    table = "stg_sales"
+    table = "raw_sales"
     
     # Table configuration
     primary_keys = ["Store", "Dept", "Date"]
@@ -33,18 +34,19 @@ def raw_sales_data(context):
     )
 
 @asset(
+    key=AssetKey(["retail_analytics", "raw_stores"]),
     config_schema=data_loading_config,
-    description="Load stores.csv data into stg_stores table with incremental loading",
-    tags={"data_source": "stores", "table": "stg_stores"},
+    description="Load stores.csv data into raw_stores table with incremental loading",
+    tags={"data_source": "stores", "table": "raw_stores"},
     required_resource_keys={"mysql_resource"}
 )
 def raw_stores_data(context):
-    """Load stores.csv into stg_stores table with incremental loading."""
+    """Load stores.csv into raw_stores table with incremental loading."""
     logger = get_dagster_logger()
     engine = context.resources.mysql_resource
     
     csv_path = Path(context.op_config['raw_data_path']) / "stores.csv"
-    table = "stg_stores"
+    table = "raw_stores"
     
     # Table configuration
     primary_keys = ["Store"]
@@ -55,18 +57,19 @@ def raw_stores_data(context):
     )
 
 @asset(
+    key=AssetKey(["retail_analytics", "raw_features"]),
     config_schema=data_loading_config,
-    description="Load features.csv data into stg_features table with incremental loading",
-    tags={"data_source": "features", "table": "stg_features"},
+    description="Load features.csv data into raw_features table with incremental loading",
+    tags={"data_source": "features", "table": "raw_features"},
     required_resource_keys={"mysql_resource"}
 )
 def raw_features_data(context):
-    """Load features.csv into stg_features table with incremental loading."""
+    """Load features.csv into raw_features table with incremental loading."""
     logger = get_dagster_logger()
     engine = context.resources.mysql_resource
     
     csv_path = Path(context.op_config['raw_data_path']) / "features.csv"
-    table = "stg_features"
+    table = "raw_features"
     
     # Table configuration
     primary_keys = ["Store", "Date"]

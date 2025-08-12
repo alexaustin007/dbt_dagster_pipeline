@@ -10,7 +10,7 @@ def start_stream():
 
 @op
 def dbt_rollup():
-    subprocess.check_call(["dbt", "run", "-m", "fct_streaming_sales", "--project-dir", "dbt_project"])
+    subprocess.check_call(["dbt", "run", "-m", "fct_streaming_sales", "--project-dir", "dbt_project", "--profiles-dir", "dbt_project"])
 
 @job
 def streaming_pipeline():

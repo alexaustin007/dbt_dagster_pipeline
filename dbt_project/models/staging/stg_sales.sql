@@ -6,4 +6,4 @@ SELECT
     Date,
     Weekly_Sales,
     IsHoliday
-FROM {{ source('retail_analytics', 'stg_sales') }}
+FROM {{ source('retail_analytics', 'raw_sales') }}
