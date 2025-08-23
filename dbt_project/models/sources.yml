@@ -8,4 +8,18 @@ sources:
       - name: raw_sales
       - name: raw_stores
       - name: raw_features
-      - name: stream_sales_events 
+      - name: stream_sales_events
+        description: "Real-time sales events from Kafka streaming"
+        columns:
+          - name: event_id
+            description: "Unique event identifier"
+          - name: event_time
+            description: "Timestamp when transaction occurred"
+          - name: store_id
+            description: "Store identifier (1-45)"
+          - name: dept_id
+            description: "Department identifier"
+          - name: total_amount
+            description: "Total transaction amount"
+          - name: transaction_type
+            description: "SALE, RETURN, or EXCHANGE" 
