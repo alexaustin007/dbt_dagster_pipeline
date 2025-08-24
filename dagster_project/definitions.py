@@ -10,6 +10,14 @@ from dagster_project.assets.data_loading import (
     raw_features_data, 
     all_raw_data_loaded
 )
+from dagster_project.assets.streaming_pipeline import (
+    kafka_producer_status,
+    spark_streaming_status,
+    streaming_data_validation,
+    streaming_analytics_summary,
+    run_streaming_dbt,
+    streaming_pipeline_job
+)
 from dagster_project.resources.database import mysql_resource
 
 # Resolve absolute dbt paths so Dagster can find the project regardless of cwd
@@ -22,13 +30,13 @@ MANIFEST_PATH = DBT_DIR / "target" / "manifest.json"
     project=DbtProject(project_dir=str(DBT_DIR), profiles_dir=str(DBT_DIR)),
 )
 def dbt_models(context, dbt: DbtCliResource):
-    # Build all batch models (exclude streaming mart)
+    # Build all batch models (exclude streaming models to avoid conflicts)
     yield from dbt.cli(
         [
             "build",
             "--project-dir", str(DBT_DIR),
             "--profiles-dir", str(DBT_DIR),
-            "--exclude", "fct_streaming_sales",
+            "--exclude", "fct_streaming_sales", "streaming",
         ],
         context=context,
     ).stream()
@@ -40,11 +48,18 @@ defs = Definitions(
         raw_features_data,
         all_raw_data_loaded,
         dbt_models,
+        # Streaming assets
+        kafka_producer_status,
+        spark_streaming_status, 
+        streaming_data_validation,
+        streaming_analytics_summary,
+        run_streaming_dbt,
     ],
     jobs=[
         retail_pipeline,
         streaming_pipeline,
         asset_based_pipeline,
+        streaming_pipeline_job,
     ],
     resources={
         "mysql_resource": mysql_resource,
